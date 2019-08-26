@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue todo</title>
+    <link rel="stylesheet" href="lib/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div id="main">
+        <div class="navbar">
+            <h1>极简 todo</h1>
+        </div>
+        <div class="header">今天你做了什么!?</div>
+        <form @submit.prevent='add' id="task-form">
+            <div class="wrapper">
+                <input v-model='current.title' id='task-input' type="text">
+                <button type='submit'>submit</button>
+            </div>
+        </form>
+        <div class="task-list">
+            <div class="wrapper">
+                未完成
+                <div v-for='todo in list' class="item">{{todo.title}}</div>
+            </div>
+        </div>
+        
+        <div class="task-list">
+            <div class="wrapper">
+                完成了
+                <div class="complete item">Lorem ipsum dolor sit amet.</div>
+            </div>
+        </div>
+
+
+    </div>
+    
+    <script src="lib/vue.js"></script>
+    <script src="js/myStorage.js"></script>
+    <script src='js/main.js'></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+* {
+    background-color: rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    position: relative;
+}
+
+
+.navbar, .header {
+    text-align: center;
+}
+
+.navbar {
+    background-color: aquamarine;
+    color: #fff;
+    padding: 10px 0;
+}
+
+.navbar h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.header {
+    font-size: 18px;
+    color: #555;
+    padding: 10px 0;
+}
+
+.wrapper {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+input, button {
+    
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 3px;
+    padding: 5px 10px;
+}
+
+input {
+    width: 100%;
+    display: block;
+}
