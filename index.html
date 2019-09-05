@@ -23,7 +23,10 @@
         <div class="task-list">
             <div class="wrapper">
                 未完成
-                <div v-for='todo in list' class="item">{{todo.title}}</div>
+                <div v-for='(todo, index) in list' class="item">
+                    {{todo.title}} {{index}}
+                    <button @click='remove(index)' >删除</button>
+                </div>
             </div>
         </div>
         

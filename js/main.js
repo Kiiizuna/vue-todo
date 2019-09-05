@@ -18,8 +18,8 @@
             update: function() {
 
             },
-            remove: function() {
-
+            remove: function(id) {
+                this.list.splice(id, 1)
             },
         }
     })
