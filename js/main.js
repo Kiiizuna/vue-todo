@@ -12,14 +12,21 @@
         },
         methods: {
             merge: function() {
-                var is_update = this.current.id
-                if (is_update) {
+                var is_update, id
+                is_update = id = this.current.id
+                log('id is', id)
+                if (id) {
                     var index = this.list.findIndex(function(item) {
-                        return item.id = is_update
-                    })
+                        log('item.id is', item.id)
+                        return item.id == is_update
+                })
+
+                    // var index = this.find_index(id)
+                    log('revise index is', index)
+                    // revise index 是 list 数组中的排序的 index
                     Vue.set(this.list, index, copy(this.current))
                     // this.list[index] = copy(this.current)
-                    log('list', this.list)
+                    // log('list', this.list)
                 } else {
                     var title = this.current.title
                     if (!title || title === 0) {
@@ -37,7 +44,8 @@
 
             },
             remove: function(id) {
-                this.list.splice(id, 1)
+                var index = this.find_index(id)
+                this.list.splice(index, 1)
             },
             next_id: function() {
                 return this.list.length + 1
@@ -47,7 +55,12 @@
             },
             reset_current: function() {
                 this.set_current({})
-            }
+            },
+            find_index: function(id) {
+                return this.list.findIndex(function(item) {
+                    return item.id == id    
+                })
+            },
         }
     })
 })()
