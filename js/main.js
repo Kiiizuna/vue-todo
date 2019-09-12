@@ -10,6 +10,9 @@
             list: [],
             current: {},
         },
+        mounted: function() {
+            this.list = ms.get('list') || this.list
+        },
         methods: {
             merge: function() {
                 var is_update, id
@@ -36,9 +39,11 @@
                     todo.id = this.next_id()
                     this.list.push(todo)                   
                 }
+                // 在添加后存入 localStorage
+                // ms.set('list', this.list)
                 this.reset_current() 
-
                 log('this.list:', this.list)
+                
             },
             update: function() {
 
@@ -46,6 +51,8 @@
             remove: function(id) {
                 var index = this.find_index(id)
                 this.list.splice(index, 1)
+                // 在删除后存入 localStorage
+                // ms.set('list', this.list)
             },
             next_id: function() {
                 return this.list.length + 1
@@ -61,7 +68,21 @@
                     return item.id == id    
                 })
             },
-        }
+        },
+        watch: {
+            list: {
+                deep: true,
+                handler: function(new_ele, old_ele) {
+                    if (new_ele) {
+                        ms.set('list',new_ele)
+                    } else {
+                        ms.set('list', [])
+                    }
+                }
+            }
+        },
+
+
     })
 })()
 
