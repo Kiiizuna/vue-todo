@@ -4,6 +4,20 @@
     var copy = function(obj) {
         return Object.assign({}, obj)
     }
+
+    var Event = new Vue()
+    //事件中心
+
+    Vue.component('task', {
+        template:'#task-tpl',
+        props:['todo'],
+        methods: {
+            action: function(name, params) {
+                Event.$emit(name, params)
+            }
+        },
+    })
+
     new Vue({
         el: '#main',
         data: {
@@ -12,6 +26,13 @@
         },
         mounted: function() {
             this.list = ms.get('list') || this.list
+            var me = this
+            Event.$on('remove', function (params) {
+                log('params', params)
+                if (params) {
+                    me.remove(params)
+                }
+            })
         },
         methods: {
             merge: function() {
@@ -67,6 +88,12 @@
                 return this.list.findIndex(function(item) {
                     return item.id == id    
                 })
+            },
+            toggle_complete: function(id) {
+                var index = this.find_index(id)
+                log('completed', this.list[index].completed)
+                Vue.set(this.list[index], 'completed', !this.list[index].completed)
+                
             },
         },
         watch: {
