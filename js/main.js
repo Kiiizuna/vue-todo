@@ -25,6 +25,9 @@
             current: {},
         },
         mounted: function() {
+
+            this.check_alerts()
+
             this.list = ms.get('list') || this.list
             var me = this
             Event.$on('remove', function (params) {
@@ -33,18 +36,48 @@
                     me.remove(params)
                 }
             })
+            Event.$on('toggle_complete', function (params) {
+                log('params', params)
+                if (params) {
+                    me.toggle_complete(params)
+                }
+            })
+            Event.$on('set_current', function (params) {
+                log('params', params)
+                if (params) {
+                    me.set_current(params)
+                }
+            })
         },
         methods: {
+
+            check_alerts: function() {
+                // var me = this;
+                this.list.forEach(function(row, i) {
+                    var alert_at = row.alert_at
+                    if (!alert_at) return
+                    log('alert_at', alert_at)
+
+                    // var alert_at = (new Date(alert_at)).getTime()
+                    // var now = (new Date()).getTime()
+                    // log('now', now)
+                    // if (now >= alert_at) {
+                    //     log('时间到了!')
+                    // }
+                })
+                log(111111123232)
+            },
+
             merge: function() {
                 var is_update, id
                 is_update = id = this.current.id
                 log('id is', id)
-                if (id) {
-                    var index = this.list.findIndex(function(item) {
-                        log('item.id is', item.id)
-                        return item.id == is_update
-                })
-
+                if (is_update) {
+                //     var index = this.list.findIndex(function(item) {
+                //         log('item.id is', item.id)
+                //         return item.id == is_update
+                // })
+                    var index = this.find_index(id)
                     // var index = this.find_index(id)
                     log('revise index is', index)
                     // revise index 是 list 数组中的排序的 index
@@ -66,6 +99,9 @@
                 log('this.list:', this.list)
                 
             },
+
+            
+
             update: function() {
 
             },
