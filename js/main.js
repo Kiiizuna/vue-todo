@@ -26,10 +26,15 @@
         },
         mounted: function() {
 
-            this.check_alerts()
+            var me = this
 
             this.list = ms.get('list') || this.list
-            var me = this
+            this.check_alerts()
+
+            setInterval(function() {
+                me.check_alerts()
+            })
+
             Event.$on('remove', function (params) {
                 log('params', params)
                 if (params) {
@@ -49,23 +54,47 @@
                 }
             })
         },
+
         methods: {
 
             check_alerts: function() {
-                // var me = this;
-                this.list.forEach(function(row, i) {
+                var me = this;
+                // for (let index = 0; index < this.list.length; index++) {
+                //     const alert_at = this.list[index].alert_at
+                    // log('this list', this.list)
+                    
+                // }
+                this.list.forEach(function (row, i) {
                     var alert_at = row.alert_at
-                    if (!alert_at) return
+                    if (!alert_at || row.alert_confirmed) return
+                    // 如果没有 alert_at 就直接返回, 用户觉得这个 todo 是不需要 alert 的
                     log('alert_at', alert_at)
-
-                    // var alert_at = (new Date(alert_at)).getTime()
-                    // var now = (new Date()).getTime()
-                    // log('now', now)
-                    // if (now >= alert_at) {
-                    //     log('时间到了!')
-                    // }
+                    var alert_at = (new Date(alert_at)).getTime()
+                    var now = (new Date()).getTime()
+                    log('now', now)
+                    if (now >= alert_at) {
+                        var confirmed = confirm(row.title)
+                        Vue.set(me.list[i], 'alert_confirmed', confirmed)
+                    }
                 })
-                log(111111123232)
+
+
+
+                // correct way
+                // var me = this;
+                // this.list.forEach(function (row, i) {
+                //     var alert_at = row.alert_at;
+                //     if (!alert_at || row.alert_confirmed) return;
+        
+                //     var alert_at = (new Date(alert_at)).getTime();
+                //     var now = (new Date()).getTime();
+        
+                //     if (now >= alert_at) {
+                //     alert_sound.play();
+                //     var confirmed = confirm(row.title);
+                //     Vue.set(me.list[i], 'alert_confirmed', confirmed);
+                //     }
+                // })
             },
 
             merge: function() {
