@@ -8,6 +8,8 @@
     var Event = new Vue()
     //事件中心
 
+
+    var sound_alert = document.querySelector('#sound-alert')
     Vue.component('task', {
         template:'#task-tpl',
         props:['todo'],
@@ -53,6 +55,12 @@
                     me.set_current(params)
                 }
             })
+            Event.$on('toggle_detail', function (params) {
+                log('params', params)
+                if (params) {
+                    me.toggle_detail(params)
+                }
+            })
         },
 
         methods: {
@@ -73,6 +81,7 @@
                     var now = (new Date()).getTime()
                     log('now', now)
                     if (now >= alert_at) {
+                        sound_alert.play()
                         var confirmed = confirm(row.title)
                         Vue.set(me.list[i], 'alert_confirmed', confirmed)
                     }
@@ -125,7 +134,7 @@
                 // 在添加后存入 localStorage
                 // ms.set('list', this.list)
                 this.reset_current() 
-                log('this.list:', this.list)
+                log('this.list is:', this.list)
                 
             },
 
@@ -159,6 +168,12 @@
                 log('completed', this.list[index].completed)
                 Vue.set(this.list[index], 'completed', !this.list[index].completed)
                 
+            },
+            toggle_detail: function(id) {
+                var index = this.find_index(id)
+                // this.list[index].show_detail
+                // log('this.list[index].show_detail is', this.list[index].show_detail)
+                Vue.set(this.list[index], 'show_detail',!this.list[index].show_detail)
             },
         },
         watch: {
