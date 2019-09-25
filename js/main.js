@@ -25,12 +25,15 @@
         data: {
             list: [],
             current: {},
+            last_id: 0,
         },
         mounted: function() {
 
             var me = this
 
             this.list = ms.get('list') || this.list
+            this.last_id = ms.get('last_id') || this.last_id
+
             this.check_alerts()
 
             setInterval(function() {
@@ -128,7 +131,9 @@
                         return
                     }
                     var todo = copy(this.current)
-                    todo.id = this.next_id()
+                    this.last_id++
+                    ms.set('last_id', this.last_id)
+                    todo.id = this.last_id
                     this.list.push(todo)                   
                 }
                 // 在添加后存入 localStorage
