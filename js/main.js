@@ -69,12 +69,7 @@
         methods: {
 
             check_alerts: function() {
-                var me = this;
-                // for (let index = 0; index < this.list.length; index++) {
-                //     const alert_at = this.list[index].alert_at
-                    // log('this list', this.list)
-                    
-                // }
+                var me = this
                 this.list.forEach(function (row, i) {
                     var alert_at = row.alert_at
                     if (!alert_at || row.alert_confirmed) return
@@ -89,9 +84,6 @@
                         Vue.set(me.list[i], 'alert_confirmed', confirmed)
                     }
                 })
-
-
-
                 // correct way
                 // var me = this;
                 // this.list.forEach(function (row, i) {
@@ -126,6 +118,7 @@
                     // this.list[index] = copy(this.current)
                     // log('list', this.list)
                 } else {
+                    // 添加新的 todo 
                     var title = this.current.title
                     if (!title || title === 0) {
                         return
@@ -143,11 +136,6 @@
                 
             },
 
-            
-
-            update: function() {
-
-            },
             remove: function(id) {
                 var index = this.find_index(id)
                 this.list.splice(index, 1)
@@ -181,9 +169,11 @@
                 Vue.set(this.list[index], 'show_detail',!this.list[index].show_detail)
             },
         },
+
+        // 监控 list 自动更新 localStorage
         watch: {
             list: {
-                deep: true,
+                deep: true, // 不管嵌套有多深
                 handler: function(new_ele, old_ele) {
                     if (new_ele) {
                         ms.set('list',new_ele)
